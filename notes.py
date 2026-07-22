@@ -29,24 +29,36 @@ if not arguments:
 if not arguments[0] in cmds:
     print(f"Invalid command {arguments[0]}")
 
-if arguments[0] == "read":
-    # leitura das notas
-    for line in open(filepath):
-        titulo, tag, texto = line.split("\t")
-        if tag.lower() == arguments[1].lower():
-            print(f"Título: {titulo}")
-            print(f"Texto: {texto}")
-            print("-" * 30)
-            print()
+while True:
+    if arguments[0] == "read":
+        try:
+            arg_tag = arguments[1].lower()
+        except IndexError:
+            arg_tag = input("Qual é a tag? ").strip().lower()
+        # leitura das notas
+        for line in open(filepath):
+            titulo, tag, texto = line.split("\t")
+            if tag.lower() == arg_tag:
+                print(f"Título: {titulo}")
+                print(f"Texto: {texto}")
+                print("-" * 30)
+                print()
 
-if arguments[0] == "new":
-    # criação da nota
-    titulo = arguments[1] # TODO: Tratar exception
-    text = [
-        f"{titulo}",
-        input("tag: ").strip(),
-        input("text:\n").strip()
-    ]
-    # \t - tsv
-    with open(filepath, "a") as file_:
-        file_.write("\t".join(text) + "\n")
+    if arguments[0] == "new":
+        # criação da nota
+        try:
+            titulo = arguments[1]
+        except IndexError:
+            titulo = input("Qual é o título? ").strip().title()
+        text = [
+            f"{titulo}",
+            input("tag: ").strip(),
+            input("text:\n").strip()
+        ]
+        # \t - tsv
+        with open(filepath, "a") as file_:
+            file_.write("\t".join(text) + "\n")
+
+    cont = input(f"Quer continuar {arguments[0]} posts? [N/y] ").strip().lower()
+    if cont != "y":
+        break
