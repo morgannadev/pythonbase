@@ -21,25 +21,32 @@ info = {
     "umidade": None
 }
 
-keys = info.keys()
+while True:
+    info_size = len(info.values())
+    filled_size = len([value for value in info.values() if value is not None])
 
-for key in keys:
-    try:
-        info[key] = float(input(f"Qual a {key}? ").strip())
-    except ValueError:
-        log.error(f"{key.capitalize()} inválida")
-        sys.exit(1)
+    if info_size == filled_size:
+        break
 
-temp = info["temperatura"]
-umidade = info["umidade"]
+    keys = info.keys()
 
-if temp > 45:
-    print("ALERTA! Perigo calor extremo!")
-elif temp * 3 >= umidade:
-    print("ALERTA! Perigo de calor úmido!")
-elif temp >= 10 and temp <= 30:
-    print("Normal")
-elif temp >= 0 and temp < 10:
-    print("Frio")
-elif temp < 0:
-    print("ALERTA! Frio extremo!")
+    for key in keys:
+        try:
+            info[key] = float(input(f"Qual a {key}? ").strip())
+        except ValueError:
+            log.error(f"{key.capitalize()} inválida")
+            sys.exit(1)
+
+    temp = info["temperatura"]
+    umidade = info["umidade"]
+
+    if temp > 45:
+        print("ALERTA! Perigo calor extremo!")
+    elif temp * 3 >= umidade:
+        print("ALERTA! Perigo de calor úmido!")
+    elif temp >= 10 and temp <= 30:
+        print("Normal")
+    elif temp >= 0 and temp < 10:
+        print("Frio")
+    elif temp < 0:
+        print("ALERTA! Frio extremo!")
